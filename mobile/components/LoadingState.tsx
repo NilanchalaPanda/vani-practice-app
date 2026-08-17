@@ -1,0 +1,17 @@
+import { ActivityIndicator, Text, View } from "react-native";
+
+type LoadingStateProps = {
+  message?: string;
+};
+
+export function LoadingState({ message = "Loading..." }: LoadingStateProps) {
+  return (
+    <View className="flex-1 items-center justify-center px-6">
+      <ActivityIndicator size="small" />
+
+      <Text className="mt-3 text-sm text-muted-light dark:text-muted-dark">
+        {message}
+      </Text>
+    </View>
+  );
+}
