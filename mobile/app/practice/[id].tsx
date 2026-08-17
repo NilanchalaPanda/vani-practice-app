@@ -394,7 +394,7 @@ export default function EditPracticeScreen() {
             <Pressable
               onPress={handleDelete}
               disabled={saving}
-              className={`mt-3 border border-red-500/40 py-4 ${
+              className={`border border-red-500/40 py-4 ${
                 saving ? "opacity-50" : "active:opacity-70"
               }`}
             >

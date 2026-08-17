@@ -56,13 +56,6 @@ export default function AddPracticeScreen() {
       return;
     }
 
-    if (!textOnlyRegex.test(trimmedDescription)) {
-      setError(
-        "Description can only contain letters, spaces, and punctuation.",
-      );
-      return;
-    }
-
     if (!duration || !Number.isInteger(durationValue) || durationValue <= 0) {
       setError("Duration must be a whole number greater than 0.");
       return;

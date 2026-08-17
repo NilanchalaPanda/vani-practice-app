@@ -4,7 +4,7 @@ import type {
   UpdatePracticeInput,
 } from "@/types/practice";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://192.168.0.239:8000";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API_URL}${endpoint}`, {
