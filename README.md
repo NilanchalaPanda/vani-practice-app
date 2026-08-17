@@ -301,8 +301,3 @@ The application provides separate UI states for initial loading, practice-detail
 | Production API | [`https://vani-practice-app.onrender.com`](https://vani-practice-app.onrender.com)                           |
 | Swagger UI     | [`https://vani-practice-app.onrender.com/docs`](https://vani-practice-app.onrender.com/docs)                 |
 | OpenAPI schema | [`https://vani-practice-app.onrender.com/openapi.json`](https://vani-practice-app.onrender.com/openapi.json) |
-
-## References
-
-[1]: https://vani-practice-app.onrender.com/docs "Practice Session App API documentation"
-[2]: https://vani-practice-app.onrender.com/openapi.json "Practice Session App OpenAPI schema"
