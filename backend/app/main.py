@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 
-from .database import engine
+from app.routes.practice import router as practice_router
+
+from .database import Base, engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Practice Session App", version="1.1.0")
+
+app.include_router(practice_router)
 
 
 @app.get("/")
