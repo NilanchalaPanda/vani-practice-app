@@ -24,16 +24,16 @@ const difficultyDot: Record<Practice["difficulty"], string> = {
 
 export function PracticeCard({ practice }: PracticeCardProps) {
   const router = useRouter();
-
   const markCompleted = usePracticeStore((state) => state.markCompleted);
 
   const [completing, setCompleting] = useState(false);
   const [completionError, setCompletionError] = useState<string | null>(null);
 
   const completed = practice.status === "completed";
+  const completionDisabled = completed || completing;
 
   async function handleComplete() {
-    if (completed || completing) {
+    if (completionDisabled) {
       return;
     }
 
@@ -42,7 +42,6 @@ export function PracticeCard({ practice }: PracticeCardProps) {
       setCompletionError(null);
 
       const updatedPractice = await completePractice(practice.id);
-
       markCompleted(updatedPractice);
     } catch (error) {
       setCompletionError(
@@ -55,12 +54,11 @@ export function PracticeCard({ practice }: PracticeCardProps) {
 
   return (
     <View className="mb-2 border border-black/15 dark:border-white/15">
-      {/* Main card content */}
+      {/* Tapping the main card opens the detail/edit screen. */}
       <Pressable
         onPress={() => router.push(`/practice/${practice.id}`)}
         className="px-4 py-5 active:opacity-60"
       >
-        {/* Title + description */}
         <View className="flex-row items-start">
           <View className="flex-1 pr-4">
             <Text className="text-2xl font-semibold tracking-tight text-foreground-light dark:text-foreground-dark">
@@ -75,18 +73,35 @@ export function PracticeCard({ practice }: PracticeCardProps) {
             </Text>
           </View>
 
-          {/* Arrow */}
-          <View className="pt-1">
-            <Ionicons name="chevron-forward" size={20} color="#777777" />
-          </View>
+          <Ionicons name="chevron-forward" size={20} color="#777777" />
         </View>
 
-        {/* Metadata */}
+        {/* Metadata and completion action */}
         <View className="mt-5 flex-row items-center">
+          {/* Status */}
+          <View
+            className={`rounded px-2 py-1 ${
+              completed ? "bg-green-200" : "bg-black/10 dark:bg-white/15"
+            }`}
+          >
+            <Text
+              className={`text-[10px] font-semibold ${
+                completed
+                  ? "text-green-900"
+                  : "text-foreground-light dark:text-foreground-dark"
+              }`}
+            >
+              {completed ? "Completed" : "Pending"}
+            </Text>
+          </View>
+
+          <Text className="mx-2 text-xs text-muted-light dark:text-muted-dark">
+            •
+          </Text>
+
           {/* Duration */}
           <View className="flex-row items-center">
             <Ionicons name="time-outline" size={15} color="#777777" />
-
             <Text className="ml-1.5 text-xs text-foreground-light dark:text-foreground-dark">
               {practice.duration} min
             </Text>
@@ -99,9 +114,10 @@ export function PracticeCard({ practice }: PracticeCardProps) {
           {/* Difficulty */}
           <View className="flex-row items-center">
             <View
-              className={`mr-1.5 h-2 w-2 rounded-full ${difficultyDot[practice.difficulty]}`}
+              className={`mr-1.5 h-2 w-2 rounded-full ${
+                difficultyDot[practice.difficulty]
+              }`}
             />
-
             <Text className="text-xs text-foreground-light dark:text-foreground-dark">
               {difficultyLabel[practice.difficulty]}
             </Text>
@@ -109,20 +125,31 @@ export function PracticeCard({ practice }: PracticeCardProps) {
 
           <View className="flex-1" />
 
-          {/* Status / Complete */}
+          {/* Completion action */}
           <Pressable
             onPress={handleComplete}
-            disabled={completed || completing}
-            className={`rounded px-2 py-1 ${
-              completed ? "bg-green-200" : "bg-accent"
-            } ${completing ? "opacity-50" : "active:opacity-70"}`}
+            disabled={completionDisabled}
+            accessibilityRole="button"
+            accessibilityLabel={
+              completed ? "Practice completed" : "Mark practice as complete"
+            }
+            accessibilityState={{ disabled: completionDisabled }}
+            className={`ml-3 rounded px-2 py-1 ${
+              completed
+                ? "bg-green-100 dark:bg-green-900/30"
+                : "bg-accent active:opacity-70"
+            } ${completing ? "opacity-50" : ""}`}
           >
             <Text
               className={`text-[10px] font-semibold ${
-                completed ? "text-green-900" : "text-black"
+                completed ? "text-green-800 dark:text-green-300" : "text-black"
               }`}
             >
-              {completing ? "..." : completed ? "Completed" : "Pending"}
+              {completing
+                ? "Saving..."
+                : completed
+                  ? "Completed"
+                  : "Mark as complete"}
             </Text>
           </Pressable>
         </View>

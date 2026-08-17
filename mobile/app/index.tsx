@@ -9,6 +9,7 @@ import { getPractices } from "@/services/practiceApi";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { EmptyState } from "@/components/EmptyState";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 function formatTotalTime(minutes: number) {
   const hours = Math.floor(minutes / 60);
@@ -74,14 +75,18 @@ export default function PracticeListScreen() {
               </Text>
             </View>
 
-            <Pressable
-              onPress={() => router.push("/practice/new")}
-              className="h-11 w-11 items-center justify-center rounded-full bg-black active:opacity-70 dark:bg-white"
-            >
-              <Text className="text-2xl font-light text-white dark:text-black">
-                +
-              </Text>
-            </Pressable>
+            <View className="flex-row gap-2">
+              <ThemeToggle />
+
+              <Pressable
+                onPress={() => router.push("/practice/new")}
+                className="h-11 w-11 items-center justify-center rounded-full bg-black active:opacity-70 dark:bg-white"
+              >
+                <Text className="text-2xl font-light text-white dark:text-black">
+                  +
+                </Text>
+              </Pressable>
+            </View>
           </View>
 
           {/* Statistics */}
